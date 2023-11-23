@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Blog Platform</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #007bff;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .welcome {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        .logout {
+            color: #dc3545;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Simple Blogging Platform with NodeJS</h1>
+    <%if (user) { %>
+        <p>Hello, <%= user.username %>!
+            <br>
+            <p><a href="/posts">Go to Blogs</a></p>
+            <br><br>
+            <a href="/auth/logout">Logout</a></p>
+    <% } else { %>
+        <p><a href="/auth/login">Login</a></p>
+        <br>
+        <p><a href="/auth/register">Register</a></p>
+    <% } %>
+</body>
+</html>
