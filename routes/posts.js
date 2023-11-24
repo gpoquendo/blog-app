@@ -32,49 +32,40 @@ router.post('/', (req, res) => {
     res.redirect('/posts');
   });
 
-// Edit a post
-router.get('/edit/:id', (req, res) => {
-  const postId = req.params.id;
-
-  // Load existing posts
-  const posts = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
-
-  // Find the post to edit by ID
-  const postToEdit = posts.find(post => post.id === postId);
-
-  if (postToEdit) {
-      res.render('edit', { post: postToEdit });
-  } else {
-      // Handle the case where the post to edit is not found
-      res.status(404).send('Post not found');
-  }
+  //Edit a post (render the form)
+  router.get('/edit/:id', (req, res) => {
+    const postId = req.params.id;
+  
+    // Load existing posts
+    const posts = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+  
+    // Find the post to edit by ID
+    const postToEdit = posts.find(post => post.id === postId);
+  
+    // Render the edit form with the post data
+    res.render('edit', { post: postToEdit });
 });
 
-// Handle the form submission for editing a post
+// Update a post
 router.post('/edit/:id', (req, res) => {
-  const postId = req.params.id;
-  const { title, content } = req.body;
-
-  // Load existing posts
-  const posts = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
-
-  // Find the index of the post to edit by ID
-  const postIndex = posts.findIndex(post => post.id === postId);
-
-  if (postIndex !== -1) {
-      // Update the post with new data
-      posts[postIndex].title = title;
-      posts[postIndex].content = content;
-
-      // Save the updated posts array to the file
-      fs.writeFileSync(dataPath, JSON.stringify(posts, null, 2), 'utf8');
-
-      // Redirect to the posts page or show a success message
-      res.redirect('/posts');
-  } else {
-      // Handle the case where the post to edit is not found
-      res.status(404).send('Post not found');
-  }
+    const postId = req.params.id;
+    const { title, content } = req.body;
+  
+    // Load existing posts
+    const posts = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+  
+    // Find the index of the post to update by ID
+    const postIndex = posts.findIndex(post => post.id === postId);
+  
+    // Update the post data
+    posts[postIndex].title = title;
+    posts[postIndex].content = content;
+  
+    // Save the updated posts array to the file
+    fs.writeFileSync(dataPath, JSON.stringify(posts, null, 2), 'utf8');
+  
+    // Redirect to the posts page or show a success message
+    res.redirect('/posts');
 });
 
   router.post('/delete/:id', (req, res) => {
