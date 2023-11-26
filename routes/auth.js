@@ -1,6 +1,10 @@
 const express = require('express');
 const passport = require('passport');
 const router = express.Router();
+const fs = require('fs');
+const uuid = require('uuid');
+
+const userData = require('../data/users.json');
 
 router.get('/login', (req, res) => {
     res.render('login');
@@ -16,6 +20,29 @@ router.get('/register', (req, res) => {
     res.render('register');
 });
 
+router.post('/register', (req, res) => {
+    const { username, password } = req.body;
+
+    const user = userData.find(user => user.username === username);
+    if (user) {
+        console.log('User already exists');
+        return res.redirect('/auth/register');
+    }
+
+    const newUser = {
+        id: uuid.v4(),
+        username: username,
+        password: password // in a real application, make sure to hash the password
+    };
+
+    userData.push(newUser);
+
+    fs.writeFileSync('./data/users.json', JSON.stringify(userData), 'utf8');
+
+    res.redirect('/auth/login');
+});
+
+/*
 router.post('/register', (req, res) => {
     const { username, password } = req.body;
 
@@ -39,20 +66,14 @@ router.post('/register', (req, res) => {
             });
         });
     });
-    
-    /*
-    // After successful registration, redirect to the login page
-    res.redirect('/auth/login');
-    */
 });
+*/
 
-// Logout route
 router.get('/logout', (req, res) => {
     req.logout(function(err) {
         if (err) { return next(err); }
         res.redirect('/');
-      }); // Passport.js function to logout
-    //res.redirect('/login'); // Redirect to home page or login page after logout
+      });
 });
 
 module.exports = router;
