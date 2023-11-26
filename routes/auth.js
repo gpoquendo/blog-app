@@ -26,6 +26,7 @@ router.post('/register', (req, res) => {
     const user = userData.find(user => user.username === username);
     if (user) {
         console.log('User already exists');
+        req.flash('error_msg', 'User already exists');
         return res.redirect('/auth/register');
     }
 
@@ -38,6 +39,8 @@ router.post('/register', (req, res) => {
     userData.push(newUser);
 
     fs.writeFileSync('./data/users.json', JSON.stringify(userData), 'utf8');
+
+    req.flash('success_msg', 'Registration successful!');
 
     res.redirect('/auth/login');
 });
