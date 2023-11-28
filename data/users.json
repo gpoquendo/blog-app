@@ -1,7 +1,1 @@
-[
-    {
-        "id": 1,
-        "username": "admin",
-        "password": "admin"
-    }
-]
+[{"id":1,"username":"admin","password":"admin"},{"id":"465977cf-2bc2-4327-add0-f128fa92be77","username":"user","password":"user"},{"id":"bd3e204b-8ff3-4e24-b86d-b2ec396ca500","username":"user2","password":"user2"}]
